@@ -1,0 +1,35 @@
+#ifndef DevisionOperator_h
+#define DevisionOperator_h
+
+#include "Operation.h"
+
+class DevisionOperator : public Operation
+{
+private:
+	std::vector<int> operands;
+	int result;
+
+public:
+	void addOperand(const int operand) override
+	{
+		operands.push_back(operand);
+	}
+
+	int getResult() override
+	{
+		return this->operands[0] / this->operands[1];
+	}
+
+	bool isCompleted() override
+	{
+		if (operands.size() == 2)
+			return true;
+		return false;
+	}
+	
+	DevisionOperator() : result(0) {}
+
+	// ~DevisionOperator() {} !
+};
+
+#endif

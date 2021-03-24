@@ -1,0 +1,59 @@
+#ifndef EXTENSIONS_H
+#define EXTENSIONS_H
+
+#include "Operation.h"
+#include<memory>
+
+#include<utility>
+#include<stack>
+
+#include "InputInterpreter.h"
+#include "DevisionOperator.h"
+
+#include "MemorySave.h"
+#include "MemoryRecall.h"
+
+class Extensions : public InputInterpreter, public DevisionOperator,
+	public MemorySave, public MemoryRecall
+{
+protected:
+	CalculationEngine& engine;
+	std::vector<int> x;
+
+	std::stack<int> saves;
+
+public:
+
+	Extensions(CalculationEngine& engine) : InputInterpreter(engine), engine(engine), MemorySave(saves) {}
+
+	std::shared_ptr<Operation> getOperation(std::string operation) override
+	{
+		if (operation == "/")
+		{
+			return std::make_shared<DevisionOperator>();
+		}
+		else if (operation == "*")
+		{
+			return InputInterpreter::getOperation(operation);
+		}
+		else if (operation == "ms")
+		{
+			return std::make_shared<MemorySave>(saves);
+		}
+		else
+		{
+			return std::make_shared<MemoryRecall>(saves);
+		}
+
+	}
+
+	Extensions() = default;
+
+};
+
+std::shared_ptr<InputInterpreter> buildInterpreter(CalculationEngine& engine)
+{
+	return std::make_shared<Extensions>(engine);
+}
+
+#endif

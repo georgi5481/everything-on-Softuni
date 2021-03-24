@@ -1,0 +1,35 @@
+#ifndef MEMORYRECALL_H
+#define MEMORYRECALL_H
+
+#include "Operation.h"
+#include "MemorySave.h"
+
+class MemoryRecall : public MemorySave
+{
+	std::stack<int>* saves;
+public:
+
+	MemoryRecall(std::stack<int>& saves) : saves(&saves) {}
+
+	void addOperand(int operand) override
+	{
+
+	}
+
+	bool isCompleted() override
+	{
+		return true;
+	}
+
+	int getResult() override
+	{
+		int a = saves->top();
+
+		saves->pop();
+		return a;
+	}
+
+	MemoryRecall() : saves(nullptr) {}
+};
+
+#endif

@@ -1,0 +1,32 @@
+#ifndef MEMORY_SAVE_h
+#define MEMORY_SAVE_h
+
+#include "Operation.h"
+#include<stack>
+class MemorySave : public Operation
+{
+protected:
+	std::stack<int>* saves;
+public:
+	MemorySave(std::stack<int>& saves) : saves(&saves) {}
+
+	void addOperand(int operand) override
+	{
+		saves->push(operand);
+	}
+
+	int getResult() override
+	{
+		return -1;
+	}
+
+	bool isCompleted() override
+	{
+		return false;
+	}
+
+	MemorySave() : saves(nullptr) {}
+
+};
+
+#endif
